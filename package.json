@@ -1,0 +1,15 @@
+{
+  "name": "stateller.js",
+  "version": "0.0.1",
+  "description": "A javascript client for interacting with stateller",
+  "main": "./index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@noble/curves": "^0.7.1",
+    "@types/node": "^18.14.1"
+  }
+}
