@@ -3,8 +3,9 @@ export type Transaction = {
   Data: {};
 };
 
-export type TransactionTypes = 'nominateToSenate';
+export type TransactionTypes = 'nominateToSenate' | 'transfer' | 'voteForSenator' | 'log';
 
 export type BroadcastRes = {
   ok: boolean;
+  txHash: string;
 };

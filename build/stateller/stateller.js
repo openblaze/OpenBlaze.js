@@ -37,6 +37,28 @@ class Client {
             let state = yield fetch('http://' + this.node + '/state').then((res) => res.text());
             return JSON.parse(state);
         });
+        this.gasFee = (transaction) => __awaiter(this, void 0, void 0, function* () {
+            let fee = yield fetch('http://' + this.node + '/query', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'gas',
+                    input: transaction,
+                }),
+            });
+            return fee.json();
+        });
+        this.getBalance = (pubkey) => __awaiter(this, void 0, void 0, function* () {
+            let fee = yield fetch('http://' + this.node + '/query', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'balance',
+                    input: pubkey,
+                }),
+            });
+            return fee.json();
+        });
         this.lastTxId = (pubkey) => __awaiter(this, void 0, void 0, function* () {
             let lastTx = yield fetch('http://' + this.node + `/lastTxId/${pubkey}`).then((res) => res.text());
             return lastTx;

@@ -9,15 +9,7 @@ const config = require('./config.json');
     Keypair: Vkey,
   });
 
-  const transaction = {
-    transactionType: 'transfer',
-    Data: {
-      reciever: 'i30sgqkHgyZF2FlYEahhdY1P2hnMm_7oRVsfbVzfs5CKcYX8_VW_vdaDmcfNHnqC',
-      amount: '100',
-    },
-  };
-
-  let res = await client.broadcast(transaction);
+  let res = await client.gasFee('transfer');
 
   console.log(res);
 })();

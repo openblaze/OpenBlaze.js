@@ -44,7 +44,25 @@ export interface Client {
      * Get the chain state
      *
      */
-    state: () => Promise<Object>;
+    state: () => Promise<types.stateRes>;
+    /**
+     *
+     * Get the current gas fee for a specific transaction type
+     *
+     * @param {types.TransactionTypes} transaction
+     * @returns {Promise<types.Gas>} Promise<types.Gas>
+     *
+     */
+    gasFee: (transaction: types.TransactionTypes) => Promise<types.Gas>;
+    /**
+     *
+     * Get the current gas fee for a specific transaction type
+     *
+     * @param {string} pubkey
+     * @returns {Promise<types.Balance>} types.publicKey
+     *
+     */
+    getBalance: (pubkey: string) => Promise<types.Balance>;
     /**
      *
      * Get latest txs from an address
@@ -80,6 +98,8 @@ export declare class Client implements Client {
     verify: (data: string, signature: string) => boolean;
     priv2pub: (privateKey: Uint8Array) => Uint8Array;
     state: () => Promise<Object>;
+    gasFee: (transaction: types.TransactionTypes) => Promise<types.Gas>;
+    getBalance: (pubkey: string) => Promise<types.Balance>;
     lastTxId: (pubkey: string) => Promise<String>;
     broadcast: (transaction: types.Transaction) => Promise<types.BroadcastRes>;
 }

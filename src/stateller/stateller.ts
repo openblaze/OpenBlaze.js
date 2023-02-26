@@ -50,7 +50,27 @@ export interface Client {
    * Get the chain state
    *
    */
-  state: () => Promise<Object>;
+  state: () => Promise<types.stateRes>;
+
+  /**
+   *
+   * Get the current gas fee for a specific transaction type
+   *
+   * @param {types.TransactionTypes} transaction
+   * @returns {Promise<types.Gas>} Promise<types.Gas>
+   *
+   */
+  gasFee: (transaction: types.TransactionTypes) => Promise<types.Gas>;
+
+  /**
+   *
+   * Get the current gas fee for a specific transaction type
+   *
+   * @param {string} pubkey
+   * @returns {Promise<types.Balance>} types.publicKey
+   *
+   */
+  getBalance: (pubkey: string) => Promise<types.Balance>;
 
   /**
    *
@@ -121,10 +141,36 @@ export class Client implements Client {
     return Buffer.from(bls.getPublicKey(privatKey));
   };
 
-  state = async (): Promise<Object> => {
+  state = async (): Promise<types.stateRes> => {
     let state: string = await fetch('http://' + this.node + '/state').then((res) => res.text());
 
     return JSON.parse(state);
+  };
+
+  gasFee = async (transaction: types.TransactionTypes): Promise<types.Gas> => {
+    let fee = await fetch('http://' + this.node + '/query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'gas',
+        input: transaction,
+      }),
+    });
+
+    return fee.json();
+  };
+
+  getBalance = async (pubkey: string): Promise<types.Balance> => {
+    let fee = await fetch('http://' + this.node + '/query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'balance',
+        input: pubkey,
+      }),
+    });
+
+    return fee.json();
   };
 
   lastTxId = async (pubkey: string): Promise<String> => {
