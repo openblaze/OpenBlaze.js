@@ -2,7 +2,7 @@
 
 ## Overview
 
-Stateller.js is a library that allows you to interact with [Stateller](https://github.com/angrymouse/stateller) an appchain framework
+Stateller.js is a is a high level library that allows you to interact with [Stateller](https://github.com/angrymouse/stateller) an appchain framework.<br>
 
 ## Installing
 
