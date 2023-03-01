@@ -1,4 +1,4 @@
-const OpenBlaze = require('../build/index');
+const OpenBlaze = require('../../build/index');
 const config = require('../config.json');
 (async () => {
   // Private key into a Keypair (PrivateKey and Public key)
