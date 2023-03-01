@@ -1,7 +1,7 @@
 {
-  "name": "stateller.js",
+  "name": "openblaze.js",
   "version": "0.0.1",
-  "description": "A javascript client for interacting with stateller",
+  "description": "A javascript client for interacting with OpenBlaze",
   "main": "./index.js",
   "scripts": {
     "build": "echo \"Error: no test specified\" && exit 1"
