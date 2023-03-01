@@ -1,5 +1,5 @@
 const OpenBlaze = require('../build/index');
-const config = require('./config.json');
+const config = require('../config.json');
 (async () => {
   // Private key into a Keypair (PrivateKey and Public key)
   let Vkey = OpenBlaze.PrivToKeypair(config.privkey);
@@ -9,11 +9,15 @@ const config = require('./config.json');
     Keypair: Vkey,
   });
 
-  // Queries from your node selected above
-  let res = await client.fetchGas('transfer', false);
+  const transaction = {
+    transactionType: 'transfer',
+    Data: {
+      reciever: 'address',
+      amount: '1000',
+    },
+  };
 
-  // Verfies with all nodes that this data is correct
-  res = await client.fetchGas('transfer', true);
+  let res = await client.broadcast(transaction);
 
   console.log(res);
 })();

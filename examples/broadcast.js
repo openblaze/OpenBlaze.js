@@ -1,10 +1,10 @@
-const Stateller = require('../build/index');
+const OpenBlaze = require('../build/index');
 const config = require('./config.json');
 (async () => {
   // Private key into a Keypair (PrivateKey and Public key)
-  let Vkey = Stateller.PrivToKeypair(config.privkey);
+  let Vkey = OpenBlaze.PrivToKeypair('QXmXFQb-8q2MQd_PvHIxJArvH2izyxu4CKrCarqtCX8');
 
-  const client = new Stateller.Client({
+  const client = new OpenBlaze.Client({
     node: config.node,
     Keypair: Vkey,
   });
@@ -12,8 +12,8 @@ const config = require('./config.json');
   const transaction = {
     transactionType: 'transfer',
     Data: {
-      reciever: 'i30sgqkHgyZF2FlYEahhdY1P2hnMm_7oRVsfbVzfs5CKcYX8_VW_vdaDmcfNHnqC',
-      amount: '100',
+      reciever: 'address',
+      amount: '1000',
     },
   };
 

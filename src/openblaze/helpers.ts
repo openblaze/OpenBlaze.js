@@ -28,3 +28,15 @@ export function PrivToKeypair(priv: string): types.Keypair {
     public: Pubkey,
   };
 }
+
+/**
+ *
+ * Extract public BLS12-381 key from private
+ *
+ * @param {types.privateKey} privateKey
+ * @returns {types.publicKey} types.publicKey
+ *
+ */
+export function priv2pub(privateKey: types.privateKey): Uint8Array {
+  return Buffer.from(bls.getPublicKey(privateKey));
+}

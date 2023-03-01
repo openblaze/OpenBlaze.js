@@ -1,15 +1,19 @@
-const Stateller = require('../build/index');
+const OpenBlaze = require('../build/index');
 const config = require('./config.json');
 (async () => {
   // Private key into a Keypair (PrivateKey and Public key)
-  let Vkey = Stateller.PrivToKeypair(config.privkey);
+  let Vkey = OpenBlaze.PrivToKeypair(config.privkey);
 
-  const client = new Stateller.Client({
+  const client = new OpenBlaze.Client({
     node: config.node,
     Keypair: Vkey,
   });
 
-  let res = await client.balance('i30sgqkHgyZF2FlYEahhdY1P2hnMm_7oRVsfbVzfs5CKcYX8_VW_vdaDmcfNHnqC');
+  // Queries from your node selected above
+  let res = await client.fetchBalance('snwj0uTr0gFLOTlHvUgoy6yMwNQxOrPqhU51_pWZDDDddSUtpiBX2GaxuDdWYTnW', false);
+
+  // Verfies with all nodes that this data is correct
+  res = await client.fetchBalance('snwj0uTr0gFLOTlHvUgoy6yMwNQxOrPqhU51_pWZDDDddSUtpiBX2GaxuDdWYTnW', true);
 
   console.log(res);
 })();

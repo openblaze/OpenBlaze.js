@@ -5,7 +5,7 @@ export * from './transactions';
 export * from './state';
 export * from './queries';
 
-export type StatellerClient = {
+export type OpenBlazeClient = {
   node: string;
   port?: string;
   Keypair?: Keypair;

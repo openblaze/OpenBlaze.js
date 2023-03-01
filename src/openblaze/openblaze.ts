@@ -4,11 +4,11 @@ import * as types from '../@types';
 
 /**
  *
- * Create a new Stateller client
+ * Create a new OpenBlaze client
  *
- * @param {types.StatellerClient} types.StatellerClient
+ * @param {types.OpenBlazeClient} types.OpenBlazeClient
  * @example
- * const client = new Stateller.Client({
+ * const client = new OpenBlaze.Client({
  *  node: '127.0.0.1',
  *  Keypair: key,
   });
@@ -37,16 +37,6 @@ export interface Client {
 
   /**
    *
-   * Extract public BLS12-381 key from private
-   *
-   * @param {types.privateKey} privateKey
-   * @returns {types.publicKey} types.publicKey
-   *
-   */
-  priv2pub: (privateKey: types.privateKey) => types.publicKey;
-
-  /**
-   *
    * Get the chain state
    *
    */
@@ -57,20 +47,22 @@ export interface Client {
    * Get the current gas fee for a specific transaction type
    *
    * @param {types.TransactionTypes} transaction
+   * @param {boolean} proved? Make sure the data is valid, may take longer to verify
    * @returns {Promise<types.Gas>} Promise<types.Gas>
    *
    */
-  gasFee: (transaction: types.TransactionTypes) => Promise<types.Gas>;
+  fetchGas: (transaction: types.TransactionTypes, proved?: boolean) => Promise<types.Gas>;
 
   /**
    *
    * Get the current gas fee for a specific transaction type
    *
    * @param {string} pubkey
+   * @param {boolean} proved? Make sure the data is valid, may take longer to verify
    * @returns {Promise<types.Balance>} types.publicKey
    *
    */
-  getBalance: (pubkey: string) => Promise<types.Balance>;
+  fetchBalance: (pubkey: string, proved?: boolean) => Promise<types.Balance>;
 
   /**
    *
@@ -111,7 +103,7 @@ export class Client implements Client {
       private: new Uint8Array(),
       public: new Uint8Array(),
     },
-  }: types.StatellerClient) {
+  }: types.OpenBlazeClient) {
     this.node = node + ':' + port;
     this.Keypair = Keypair;
   }
@@ -137,40 +129,63 @@ export class Client implements Client {
     return bls.verify(decodedSignature, decodedData, this.Keypair.public);
   };
 
-  priv2pub = (privatKey: types.privateKey): Uint8Array => {
-    return Buffer.from(bls.getPublicKey(privatKey));
-  };
-
   state = async (): Promise<types.stateRes> => {
     let state: string = await fetch('http://' + this.node + '/state').then((res) => res.text());
 
     return JSON.parse(state);
   };
 
-  gasFee = async (transaction: types.TransactionTypes): Promise<types.Gas> => {
-    let fee = await fetch('http://' + this.node + '/query', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: 'gas',
-        input: transaction,
-      }),
-    });
+  fetchGas = async (transaction: types.TransactionTypes, proved?: boolean): Promise<types.Gas> => {
+    if (proved) {
+      console.log('s');
+      let fee = await fetch('http://' + this.node + '/provedQuery', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'gas',
+          input: transaction,
+        }),
+      });
 
-    return fee.json();
+      return fee.json();
+    } else {
+      let fee = await fetch('http://' + this.node + '/query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'gas',
+          input: transaction,
+        }),
+      });
+
+      return fee.json();
+    }
   };
 
-  getBalance = async (pubkey: string): Promise<types.Balance> => {
-    let fee = await fetch('http://' + this.node + '/query', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: 'balance',
-        input: pubkey,
-      }),
-    });
+  fetchBalance = async (pubkey: string, proved?: boolean): Promise<types.Balance> => {
+    if (proved) {
+      let fee = await fetch('http://' + this.node + '/provedQuery', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'balance',
+          input: pubkey,
+        }),
+      });
 
-    return fee.json();
+      return fee.json();
+    } else {
+      let fee = await fetch('http://' + this.node + '/query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'balance',
+          input: pubkey,
+        }),
+      });
+
+      return fee.json();
+    }
   };
 
   lastTxId = async (pubkey: string): Promise<String> => {

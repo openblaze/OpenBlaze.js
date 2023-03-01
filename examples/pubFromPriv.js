@@ -1,18 +1,12 @@
-const Stateller = require('../build/index');
+const OpenBlaze = require('../build/index');
 const config = require('./config.json');
 (async () => {
   // Generate New Key
-  let key = Stateller.generateKey();
-
+  let key = OpenBlaze.generateKey();
   // Private key into a Keypair (PrivateKey and Public key)
-  key = Stateller.PrivToKeypair(config.privkey);
+  key = OpenBlaze.PrivToKeypair(config.privkey);
 
-  const client = new Stateller.Client({
-    node: config.node,
-    Keypair: key,
-  });
+  let pubKey = OpenBlaze.priv2pub(key.private);
 
-  let pubKey = client.priv2pub(key.private);
-
-  console.log(Stateller.BufferReader(pubKey));
+  console.log(OpenBlaze.BufferReader(pubKey));
 })();
