@@ -1,5 +1,9 @@
 # OpenBlaze.js
 
+# Notice
+
+This library isnt fully complete, and will include breaking changes often
+
 ## Overview
 
 OpenBlaze.js is a is a high level library that allows you to interact with [OpenBlaze](https://github.com/angrymouse/openblaze) an appchain framework.<br>
