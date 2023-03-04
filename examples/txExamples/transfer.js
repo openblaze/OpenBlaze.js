@@ -12,7 +12,8 @@ const config = require('../config.json');
   const transaction = {
     transactionType: 'transfer',
     Data: {
-      reciever: 'address',
+      denom: 'ublaze',
+      reciever: 'burn',
       amount: '1000',
     },
   };
@@ -21,3 +22,6 @@ const config = require('../config.json');
 
   console.log(res);
 })();
+
+//  qvIZV3nOzTicqud4Krf-0dVQzToGQt7CxEZXMbROch5p6Lfx-z2wFAcyFGH_Rhid pub
+// X0RuQZ4GANdS3BclXaC8K0YY0EXDTE01lcTVgLayaSw priv

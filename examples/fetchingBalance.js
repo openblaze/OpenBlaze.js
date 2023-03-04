@@ -10,10 +10,7 @@ const config = require('./config.json');
   });
 
   // Queries from your node selected above
-  let res = await client.fetchBalance('snwj0uTr0gFLOTlHvUgoy6yMwNQxOrPqhU51_pWZDDDddSUtpiBX2GaxuDdWYTnW', false);
-
-  // Verfies with all nodes that this data is correct
-  res = await client.fetchBalance('snwj0uTr0gFLOTlHvUgoy6yMwNQxOrPqhU51_pWZDDDddSUtpiBX2GaxuDdWYTnW', true);
+  let res = await client.fetchBalance('oTv_DOtvxnlS5yjsbhJJwsl91p9SnuYFufkwwjAdYgxgAFSKshkt2S76YuuryXw6', false);
 
   console.log(res);
 })();
